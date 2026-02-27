@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harga Emas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      color: #222;
+      padding: 32px 16px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    button {
+      padding: 8px 20px;
+      background: #421a40;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    #status {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    thead tr {
+      background: #421a40;
+      color: #fff;
+    }
+
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: #fafafa;
+    }
+
+    .price {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .na {
+      color: #bbb;
+    }
+
+    #last-updated {
+      font-size: 0.8rem;
+      color: #aaa;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <h1>Harga Emas</h1>
+    <p class="subtitle">Harga beli emas per gram (harga emas yang dibeli oleh toko)</p>
+
+    <div class="controls">
+      <button id="btn" onclick="fetchPrices()">Refresh Data</button>
+      <span id="status"></span>
+    </div>
+
+    <div class="section">
+      <h2>Raja Emas Indonesia - Harga Perhiasan Emas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Kadar</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+          </tr>
+        </thead>
+        <tbody id="jewelry-body">
+          <tr><td colspan="3" class="na">Klik "Refresh Data" untuk memuat harga.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Raja Emas Indonesia - Logam Mulia</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Produk</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+          </tr>
+        </thead>
+        <tbody id="lm-body">
+          <tr><td colspan="3" class="na">Klik "Refresh Data" untuk memuat harga.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>I Love Emas — Harga Perhiasan Emas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Kadar</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+          </tr>
+        </thead>
+        <tbody id="iloveemas-body">
+          <tr><td colspan="3" class="na">Klik "Refresh Data" untuk memuat harga.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>I Love Emas — Logam Mulia</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Produk</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+          </tr>
+        </thead>
+        <tbody id="iloveemas-lm-body">
+          <tr><td colspan="3" class="na">Klik "Refresh Data" untuk memuat harga.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Go Emas — Harga Perhiasan Emas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Kadar</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+          </tr>
+        </thead>
+        <tbody id="goemas-body">
+          <tr><td colspan="3" class="na">Klik "Refresh Data" untuk memuat harga.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Go Emas — Logam Mulia</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Produk</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+          </tr>
+        </thead>
+        <tbody id="goemas-lm-body">
+          <tr><td colspan="3" class="na">Klik "Refresh Data" untuk memuat harga.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Emas Now — Harga Perhiasan Emas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Kadar</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+          </tr>
+        </thead>
+        <tbody id="emasnow-body">
+          <tr><td colspan="3" class="na">Klik "Refresh Data" untuk memuat harga.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Emas Now — Logam Mulia</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Produk</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+          </tr>
+        </thead>
+        <tbody id="emasnow-lm-body">
+          <tr><td colspan="3" class="na">Klik "Refresh Data" untuk memuat harga.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="last-updated"></div>
+
+  </div>
+
+  <script>
+    function rupiah(num) {
+      if (num == null) return '<span class="na">-</span>';
+      return 'Rp ' + num.toLocaleString('id-ID');
+    }
+
+    function setStatus(text) {
+      document.getElementById('status').textContent = text;
+    }
+
+    async function fetchPrices() {
+      const btn = document.getElementById('btn');
+      const jewelryBody = document.getElementById('jewelry-body');
+      const lmBody = document.getElementById('lm-body');
+      const iloveemasBody = document.getElementById('iloveemas-body');
+      const iloveemasLmBody = document.getElementById('iloveemas-lm-body');
+      const goemasBody = document.getElementById('goemas-body');
+      const goemasLmBody = document.getElementById('goemas-lm-body');
+      const emasnowBody = document.getElementById('emasnow-body');
+      const emasnowLmBody = document.getElementById('emasnow-lm-body');
+
+      btn.disabled = true;
+      setStatus('Memuat data...');
+      jewelryBody.innerHTML = '<tr><td colspan="3" class="na">Loading...</td></tr>';
+      lmBody.innerHTML = '<tr><td colspan="3" class="na">Loading...</td></tr>';
+      iloveemasBody.innerHTML = '<tr><td colspan="3" class="na">Loading...</td></tr>';
+      iloveemasLmBody.innerHTML = '<tr><td colspan="3" class="na">Loading...</td></tr>';
+      goemasBody.innerHTML = '<tr><td colspan="3" class="na">Loading...</td></tr>';
+      goemasLmBody.innerHTML = '<tr><td colspan="3" class="na">Loading...</td></tr>';
+      emasnowBody.innerHTML = '<tr><td colspan="3" class="na">Loading...</td></tr>';
+      emasnowLmBody.innerHTML = '<tr><td colspan="3" class="na">Loading...</td></tr>';
+
+      try {
+        const res = await fetch('/prices');
+        const data = await res.json();
+
+        // Raja Emas tables
+        if (data.rajaEmas.error) {
+          const errHtml = `<tr><td colspan="3" style="color:#c0392b;">Gagal: ${data.rajaEmas.error}</td></tr>`;
+          jewelryBody.innerHTML = errHtml;
+          lmBody.innerHTML = errHtml;
+        } else {
+          jewelryBody.innerHTML = data.rajaEmas.jewelry.map(row => `
+            <tr>
+              <td>${row.kadar}</td>
+              <td class="price">${rupiah(row.buy)}</td>
+              <td class="price">${rupiah(row.sell)}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" class="na">Tidak ada data.</td></tr>';
+
+          lmBody.innerHTML = data.rajaEmas.logamMulia.map(row => `
+            <tr>
+              <td>${row.type}</td>
+              <td class="price">${rupiah(row.buy)}</td>
+              <td class="price">${rupiah(row.sell)}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" class="na">Tidak ada data.</td></tr>';
+        }
+
+        // I Love Emas tables
+        if (data.iloveemas.error) {
+          const errHtml = `<tr><td colspan="3" style="color:#c0392b;">Gagal: ${data.iloveemas.error}</td></tr>`;
+          iloveemasBody.innerHTML = errHtml;
+          iloveemasLmBody.innerHTML = errHtml;
+        } else {
+          iloveemasBody.innerHTML = data.iloveemas.perhiasan.map(row => `
+            <tr>
+              <td>${row.kadar}</td>
+              <td class="price">${rupiah(row.buy)}</td>
+              <td class="price">${rupiah(row.sell)}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" class="na">Tidak ada data.</td></tr>';
+
+          iloveemasLmBody.innerHTML = data.iloveemas.logamMulia.length
+            ? data.iloveemas.logamMulia.map(row => `
+                <tr>
+                  <td>${row.product}</td>
+                  <td class="price">${rupiah(row.buy)}</td>
+                  <td class="price">${rupiah(row.sell)}</td>
+                </tr>
+              `).join('')
+            : '<tr><td colspan="3" class="na">Tidak ada data Logam Mulia.</td></tr>';
+        }
+
+        // Go Emas tables
+        if (data.goEmas.error) {
+          const errHtml = `<tr><td colspan="3" style="color:#c0392b;">Gagal: ${data.goEmas.error}</td></tr>`;
+          goemasBody.innerHTML = errHtml;
+          goemasLmBody.innerHTML = errHtml;
+        } else {
+          goemasBody.innerHTML = data.goEmas.perhiasan.map(row => `
+            <tr>
+              <td>${row.kadar}</td>
+              <td class="price">${rupiah(row.buy)}</td>
+              <td class="price">${rupiah(row.sell)}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" class="na">Tidak ada data.</td></tr>';
+
+          goemasLmBody.innerHTML = data.goEmas.logamMulia.map(row => `
+            <tr>
+              <td>${row.product}</td>
+              <td class="price">${rupiah(row.buy)}</td>
+              <td class="price">${rupiah(row.sell)}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" class="na">Tidak ada data.</td></tr>';
+        }
+
+        // Emas Now tables
+        if (data.emasNow.error) {
+          const errHtml = `<tr><td colspan="3" style="color:#c0392b;">Gagal: ${data.emasNow.error}</td></tr>`;
+          emasnowBody.innerHTML = errHtml;
+          emasnowLmBody.innerHTML = errHtml;
+        } else {
+          emasnowBody.innerHTML = data.emasNow.perhiasan.map(row => `
+            <tr>
+              <td>${row.kadar}</td>
+              <td class="price">${rupiah(row.buy)}</td>
+              <td class="price">${rupiah(row.sell)}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" class="na">Tidak ada data.</td></tr>';
+
+          emasnowLmBody.innerHTML = data.emasNow.logamMulia.map(row => `
+            <tr>
+              <td>${row.product}</td>
+              <td class="price">${rupiah(row.buy)}</td>
+              <td class="price">${rupiah(row.sell)}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" class="na">Tidak ada data.</td></tr>';
+        }
+
+        document.getElementById('last-updated').textContent =
+          'Diperbarui: ' + new Date().toLocaleString('id-ID');
+
+        const failed = [data.rajaEmas, data.iloveemas, data.goEmas, data.emasNow].filter(s => s.error).length;
+        setStatus(failed ? `${4 - failed}/4 sumber berhasil.` : 'Berhasil dimuat.');
+      } catch (err) {
+        const errRow = `<tr><td colspan="3" style="color:#c0392b;">Error: ${err.message}</td></tr>`;
+        jewelryBody.innerHTML = errRow;
+        lmBody.innerHTML = errRow;
+        iloveemasBody.innerHTML = errRow;
+        iloveemasLmBody.innerHTML = errRow;
+        goemasBody.innerHTML = errRow;
+        goemasLmBody.innerHTML = errRow;
+        emasnowBody.innerHTML = errRow;
+        emasnowLmBody.innerHTML = errRow;
+        setStatus('Gagal memuat.');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
