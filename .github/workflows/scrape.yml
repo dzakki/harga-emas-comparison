@@ -1,0 +1,38 @@
+name: Scrape Gold Prices
+
+on:
+  schedule:
+    - cron: '0 1 * * *'  # 9:00 AM WITA (UTC+8) = 01:00 UTC
+  workflow_dispatch:      # allow manual trigger from GitHub Actions tab
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Generate static HTML
+        run: node generate.js
+        env:
+          CI: true
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/index.html
+          git diff --cached --quiet && echo "No changes." || git commit -m "chore: update harga emas $(TZ=Asia/Makassar date +'%Y-%m-%d %H:%M WITA')"
+          git push

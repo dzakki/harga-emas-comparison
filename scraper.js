@@ -22,7 +22,9 @@ function curlGet(url) {
 }
 
 async function scrape() {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({
+    args: process.env.CI ? ['--no-sandbox', '--disable-setuid-sandbox'] : [],
+  });
   const context = await browser.newContext({ userAgent: UA });
   const page = await context.newPage();
 
